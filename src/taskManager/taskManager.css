@@ -1,0 +1,8 @@
+.tr-active {
+    background: lightgreen;
+    text-decoration: line-through;
+}
+
+.taskComplete {
+    text-decoration:line-through;
+}

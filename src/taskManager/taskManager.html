@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>START - PART 2</title>
+
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="taskManager.css"/>
+
+</head>
+
+<body ng-app="taskManager">
+
+<!-- main navigation-->
+<nav class="navbar navbar-default">
+    <div class="container" >
+
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">Task Manager | Angular</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Tasks</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<div class="container" ng-controller="mainController">
+
+    <header class="row">
+        <div class="page-header">
+            <h1>Task Manager
+                <span class="glyphicon glyphicon-th pull-right"></span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- action bar -->
+    <section class="row" ng-controller="actionController">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <button class="btn btn-default" ng-click="toggleComp()">show/hide completed</button>
+                <button class="btn btn-default" ng-click="clear()">Clear Log</button>
+            </div>
+        </div>
+    </section><!-- /action bar -->
+
+    <div class="row">
+
+        <!-- task log -->
+        <div class="col-lg-3" ng-controller="logController" >
+            <ul class="list-unstyled">
+                <li ng-repeat="l in log"><samp>{{l.date | date:'yyyy-MM-dd HH:mm'}} - {{l.action}}</samp></li>
+            </ul>
+        </div> <!-- /task log -->
+
+        <!-- task table -->
+        <div class="col-lg-7" ng-controller="tableController">
+
+            <form class="form-group form-inline pull-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="search.title"/>
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                </div>
+            </form>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Done</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="t in tasks  | filter:search" ng-hide="t.completed && action.showComp">
+                    <td class="text-center"><input class="input" type="checkbox" ng-model="t.completed"/></td>
+                    <td ng-class="{taskComplete: t.completed}">{{t.title}}</td>
+                    <td ng-class="{taskComplete: t.completed}">{{t.description}}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-danger" ng-click="removeTask(t)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                            <button class="btn btn-primary"  ng-click="editTask(t)">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+
+
+                </tbody>
+            </table>
+        </div><!-- /task table -->
+
+        <!-- task form -->
+        <div class="col-lg-2" ng-controller="addController">
+
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title" ng-model="task.title">
+                </div>
+
+                <div class="form-group">
+                    <textarea rows="6" class="form-control" placeholder="Description"  ng-model="task.description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button class="form-control btn btn-primary" ng-click="addTask(task)">Add</button>
+                </div>
+            </form>
+        </div><!-- /task form -->
+
+    </div>
+</div><!-- /container-->
+
+<script src="../../bower_components/angular/angular.min.js"></script>
+<script src="taskManager.js"></script>
+</body>
+
+</html>
